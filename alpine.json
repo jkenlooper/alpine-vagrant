@@ -66,17 +66,15 @@
       "type": "virtualbox-iso",
       "guest_os_type": "Linux26_64",
       "guest_additions_mode": "attach",
-      "headless": true,
+      "headless": false,
       "http_directory": ".",
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "2048"],
         ["modifyvm", "{{.Name}}", "--cpus", "2"],
         ["modifyvm", "{{.Name}}", "--vram", "32"],
-        ["modifyvm", "{{.Name}}", "--nictype1", "virtio"],
-        ["modifyvm", "{{.Name}}", "--nictype2", "virtio"],
-        ["modifyvm", "{{.Name}}", "--nictype3", "virtio"],
-        ["modifyvm", "{{.Name}}", "--nictype4", "virtio"]
+        ["modifyvm", "{{.Name}}", "--nictype1", "82540EM"]
       ],
+      "nic_type": "82540EM",
       "disk_size": "{{user `disk_size`}}",
       "hard_drive_interface": "sata",
       "hard_drive_discard": true,
@@ -85,11 +83,12 @@
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "60m",
+      "ssh_timeout": "60m",
       "boot_wait": "30s",
       "boot_command": [
         "root<enter>",
         "ifconfig eth0 up && udhcpc -i eth0<enter><wait5s>",
-        "wget -qO- http://{{.HTTPIP}}:{{.HTTPPort}}/install.sh | ash<enter>"
+        "wget -qO- http://10.0.0.145:{{.HTTPPort}}/install.sh | ash<enter>"
       ],
       "shutdown_command": "doas poweroff"
     }
